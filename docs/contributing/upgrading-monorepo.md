@@ -11,6 +11,8 @@ Typical upgrade sequence should be:
     - either rebuild your Docker images with `docker-compose up -d --build` or add `ELASTIC_SEARCH_INDEX_PREFIX=''` to your `.env` files in the microservice root directories, otherwise all requests to the microservices will throw `EnvNotFoundException`
 - [#679 webserver container starts after php-fpm is started](https://github.com/shopsys/shopsys/pull/679)
     - add `depends_on: [php-fpm]` into `webserver` service of your `docker-compose.yml` file so webserver will not fail on error `host not found in upstream php-fpm:9000`
+- [#694 PHP 7.3 support](https://github.com/shopsys/shopsys/pull/694)
+    - rebuild your Docker images with `docker-compose up -d --build`
 
 ## [From v7.0.0-beta2 to v7.0.0-beta3]
 - *(MacOS only)* [#503 updated docker-sync configuration](https://github.com/shopsys/shopsys/pull/503/)

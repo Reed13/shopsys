@@ -18,6 +18,7 @@ There you can find links to upgrade notes for other versions too.
 - make sure your `webserver` service depends on `php-fpm` in your `docker-compose.yml` file so webserver will not fail on error `host not found in upstream php-fpm:9000` ([#679](https://github.com/shopsys/shopsys/pull/679))
 - on a production server enable compression of static files ([#703](https://github.com/shopsys/shopsys/pull/703))
     - you can see example configuration in [Installation using Docker on Production Server](/docs/installation/installation-using-docker-on-production-server.md) guide
+- *(optional)* in your `docker/php-fpm/Dockerfile` change base image to `php:7.3-fpm-stretch` ([#694](https://github.com/shopsys/shopsys/pull/694))
 
 ### Configuration
 - *(optional)* for easier deployment to production, make the trusted proxies in `Shopsys\Boostrap` class loaded from DIC parameter `trusted_proxies` instead of being hard-coded ([#596](https://github.com/shopsys/shopsys/pull/596))
