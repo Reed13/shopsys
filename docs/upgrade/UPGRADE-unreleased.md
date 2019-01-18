@@ -26,6 +26,16 @@ There you can find links to upgrade notes for other versions too.
 
 ### Tools
 - *(optional)* drop `--verbose` from all easy-coding-standard phing targets (look for `${path.ecs.executable}`) as the package was upgraded in [#623](https://github.com/shopsys/shopsys/pull/623/) and now outputs name of each file checked in the verbose mode
+- *(optional)* add a new phing target `clean-redis` to your `build.xml` and `build-dev.xml` and use it where you need to clean Redis cache.
+  You can find an inspiration in [#736](https://github.com/shopsys/shopsys/pull/736/files)
+    ```xml
+        <target name="clean-redis" description="Cleans up redis cache">
+            <exec executable="${path.php.executable}" passthru="true" checkreturn="true" output="${dev.null}">
+                <arg value="${path.bin-console}" />
+                <arg value="shopsys:redis:clean-cache" />
+            </exec>
+        </target>
+    ```
 
 ### Application
 - stop providing the option `is_group_container_to_render_as_the_last_one` to the `FormGroup` in your forms, the option was removed

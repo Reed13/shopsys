@@ -41,6 +41,6 @@ class RedisCleanCacheCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->redisFacade->clearCache();
+        $this->redisFacade->cleanCache();
     }
 }

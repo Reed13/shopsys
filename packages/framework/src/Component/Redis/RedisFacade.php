@@ -21,7 +21,7 @@ class RedisFacade
         $this->cacheClients = $cacheClients;
     }
 
-    public function clearCache(): void
+    public function cleanCache(): void
     {
         foreach ($this->cacheClients as $redis) {
             $prefix = (string)$redis->getOption(Redis::OPT_PREFIX);
