@@ -35,10 +35,3 @@ services:
     Shopsys\MigrationBundle\Command\GenerateMigrationCommand:
         arguments:
             - '%shopsys.vendor_dir%'
-
-    Shopsys\FrameworkBundle\Command\RedisCleanCacheCommand:
-        arguments:
-            $redisClients:
-                - '@snc_redis.bestselling_products'
-                - '@snc_redis.doctrine_metadata'
-                - '@snc_redis.doctrine_query'

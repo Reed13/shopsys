@@ -2,7 +2,7 @@
 
 namespace Shopsys\FrameworkBundle\Command;
 
-use Redis;
+use Shopsys\FrameworkBundle\Component\Redis\RedisFacade;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,16 +15,17 @@ class RedisCleanCacheCommand extends Command
     protected static $defaultName = 'shopsys:redis:clean-cache';
 
     /**
-     * @var \Redis[]
+     * @var \Shopsys\FrameworkBundle\Component\Redis\RedisFacade
      */
-    private $redisClients;
+    private $redisFacade;
 
     /**
-     * @param \Redis[] $redisClients
+     * RedisCleanCacheCommand constructor.
+     * @param \Shopsys\FrameworkBundle\Component\Redis\RedisFacade $redisFacade
      */
-    public function __construct(array $redisClients)
+    public function __construct(RedisFacade $redisFacade)
     {
-        $this->redisClients = $redisClients;
+        $this->redisFacade = $redisFacade;
         parent::__construct();
     }
 
@@ -40,25 +41,6 @@ class RedisCleanCacheCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->redisClients as $redis) {
-            $prefix = $redis->getOption(Redis::OPT_PREFIX);
-            $keys = $redis->keys('*');
-            $plainKeys = $this->removePrefixes($keys, $prefix);
-            $redis->del($plainKeys);
-        }
-    }
-
-    /**
-     * @param string[] $keys
-     * @param string $prefix
-     * @return string[]
-     */
-    private function removePrefixes(array $keys, string $prefix): array
-    {
-        $result = [];
-        foreach ($keys as $key) {
-            $result[] = preg_replace(sprintf('~^%s~', $prefix), '', $key);
-        }
-        return $result;
+        $this->redisFacade->clearCache();
     }
 }
