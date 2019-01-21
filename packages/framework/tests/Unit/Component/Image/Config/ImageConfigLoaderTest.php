@@ -97,6 +97,7 @@ class ImageConfigLoaderTest extends TestCase
                         ImageConfigDefinition::CONFIG_SIZE_HEIGHT => null,
                         ImageConfigDefinition::CONFIG_SIZE_CROP => false,
                         ImageConfigDefinition::CONFIG_SIZE_OCCURRENCE => null,
+                        ImageConfigDefinition::CONFIG_SIZE_ADDITIONAL_SIZES => [],
                     ],
                     [
                         ImageConfigDefinition::CONFIG_SIZE_NAME => null,
@@ -104,6 +105,7 @@ class ImageConfigLoaderTest extends TestCase
                         ImageConfigDefinition::CONFIG_SIZE_HEIGHT => null,
                         ImageConfigDefinition::CONFIG_SIZE_CROP => false,
                         ImageConfigDefinition::CONFIG_SIZE_OCCURRENCE => null,
+                        ImageConfigDefinition::CONFIG_SIZE_ADDITIONAL_SIZES => [],
                     ],
                 ],
                 ImageConfigDefinition::CONFIG_TYPES => [],
@@ -171,6 +173,13 @@ class ImageConfigLoaderTest extends TestCase
                                 ImageConfigDefinition::CONFIG_SIZE_HEIGHT => null,
                                 ImageConfigDefinition::CONFIG_SIZE_CROP => false,
                                 ImageConfigDefinition::CONFIG_SIZE_OCCURRENCE => null,
+                                ImageConfigDefinition::CONFIG_SIZE_ADDITIONAL_SIZES => [
+                                    [
+                                        ImageConfigDefinition::CONFIG_SIZE_ADDITIONAL_SIZE_MEDIA => '(min-width: 1200px)',
+                                        ImageConfigDefinition::CONFIG_SIZE_WIDTH => 200,
+                                        ImageConfigDefinition::CONFIG_SIZE_HEIGHT => null,
+                                    ],
+                                ],
                             ],
                             [
                                 ImageConfigDefinition::CONFIG_SIZE_NAME => 'SizeName_2',
@@ -178,6 +187,7 @@ class ImageConfigLoaderTest extends TestCase
                                 ImageConfigDefinition::CONFIG_SIZE_HEIGHT => 100,
                                 ImageConfigDefinition::CONFIG_SIZE_CROP => true,
                                 ImageConfigDefinition::CONFIG_SIZE_OCCURRENCE => null,
+                                ImageConfigDefinition::CONFIG_SIZE_ADDITIONAL_SIZES => [],
                             ],
                         ],
                     ],
@@ -205,6 +215,12 @@ class ImageConfigLoaderTest extends TestCase
         $this->assertSame(200, $imageSize->getWidth());
         $this->assertSame(100, $imageSize->getHeight());
         $this->assertSame(true, $imageSize->getCrop());
+
+        $imageSize1 = $imageEntityConfig->getSizeConfigByType('TypeName_1', 'SizeName_1');
+        $additionalSize = $imageSize1->getAdditionalSize(0);
+        $this->assertSame('(min-width: 1200px)', $additionalSize->getMedia());
+        $this->assertSame(200, $additionalSize->getWidth());
+        $this->assertSame(null, $additionalSize->getHeight());
     }
 
     public function testLoadFromArrayOriginalSize()
@@ -244,6 +260,7 @@ class ImageConfigLoaderTest extends TestCase
                         ImageConfigDefinition::CONFIG_SIZE_HEIGHT => 100,
                         ImageConfigDefinition::CONFIG_SIZE_CROP => true,
                         ImageConfigDefinition::CONFIG_SIZE_OCCURRENCE => null,
+                        ImageConfigDefinition::CONFIG_SIZE_ADDITIONAL_SIZES => [],
                     ],
                 ],
                 ImageConfigDefinition::CONFIG_TYPES => [],

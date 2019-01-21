@@ -113,22 +113,41 @@ class ImageConfigLoader
         foreach ($sizesConfig as $sizeConfig) {
             $sizeName = $sizeConfig[ImageConfigDefinition::CONFIG_SIZE_NAME];
             $key = Utils::ifNull($sizeName, ImageEntityConfig::WITHOUT_NAME_KEY);
+            $additionalSizes = $this->prepareAdditionalSizes($sizeConfig[ImageConfigDefinition::CONFIG_SIZE_ADDITIONAL_SIZES]);
             if (!array_key_exists($key, $result)) {
                 $result[$key] = new ImageSizeConfig(
                     $sizeName,
                     $sizeConfig[ImageConfigDefinition::CONFIG_SIZE_WIDTH],
                     $sizeConfig[ImageConfigDefinition::CONFIG_SIZE_HEIGHT],
                     $sizeConfig[ImageConfigDefinition::CONFIG_SIZE_CROP],
-                    $sizeConfig[ImageConfigDefinition::CONFIG_SIZE_OCCURRENCE]
+                    $sizeConfig[ImageConfigDefinition::CONFIG_SIZE_OCCURRENCE],
+                    $additionalSizes
                 );
             } else {
                 throw new \Shopsys\FrameworkBundle\Component\Image\Config\Exception\DuplicateSizeNameException($sizeName);
             }
         }
         if (!array_key_exists(ImageConfig::ORIGINAL_SIZE_NAME, $result)) {
-            $result[ImageConfig::ORIGINAL_SIZE_NAME] = new ImageSizeConfig(ImageConfig::ORIGINAL_SIZE_NAME, null, null, false, null);
+            $result[ImageConfig::ORIGINAL_SIZE_NAME] = new ImageSizeConfig(ImageConfig::ORIGINAL_SIZE_NAME, null, null, false, null, []);
         }
 
+        return $result;
+    }
+
+    /**
+     * @param array $additionalSizesConfig
+     * @return \Shopsys\FrameworkBundle\Component\Image\Config\ImageAdditionalSizeConfig[]
+     */
+    private function prepareAdditionalSizes(array $additionalSizesConfig): array
+    {
+        $result = [];
+        foreach ($additionalSizesConfig as $additionalSizeConfig) {
+            $result[] = new ImageAdditionalSizeConfig(
+                $additionalSizeConfig[ImageConfigDefinition::CONFIG_SIZE_WIDTH],
+                $additionalSizeConfig[ImageConfigDefinition::CONFIG_SIZE_HEIGHT],
+                $additionalSizeConfig[ImageConfigDefinition::CONFIG_SIZE_ADDITIONAL_SIZE_MEDIA]
+            );
+        }
         return $result;
     }
 
