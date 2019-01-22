@@ -50,6 +50,7 @@
             height: ~
             crop: false
             occurrence: 'Front-end: Main image in product detail'
+            additionalSizes: [{width: 1100, height: ~, media: "(min-width: 1200px)"}, {width: 275, height: ~, media: "(max-width: 480px)"}]
         -   name: galleryThumbnail
             width: ~
             height: 35
