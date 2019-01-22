@@ -54,8 +54,6 @@ class OrderFormType extends AbstractType
     private $domain;
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Payment\PaymentFacade $paymentFacade
-     * @param \Shopsys\FrameworkBundle\Model\Transport\TransportFacade $transportFacade
      * @param \Shopsys\FrameworkBundle\Model\Country\CountryFacade $countryFacade
      * @param \Shopsys\FrameworkBundle\Model\Order\Status\OrderStatusFacade $orderStatusFacade
      * @param \Shopsys\FrameworkBundle\Twig\DateTimeFormatterExtension $dateTimeFormatterExtension
@@ -80,7 +78,7 @@ class OrderFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $domainId = $options['order']->getDomainId();
-        $countries = $this->countryFacade->getAllByDomainId($domainId);
+        $countries = $this->countryFacade->getAllEnabledByDomainId($domainId);
         $builder
             ->add($this->createBasicInformationGroup($builder, $options['order']))
             ->add($this->createPersonalDataGroup($builder))

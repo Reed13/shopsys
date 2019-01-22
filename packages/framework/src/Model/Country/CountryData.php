@@ -5,7 +5,7 @@ namespace Shopsys\FrameworkBundle\Model\Country;
 class CountryData
 {
     /**
-     * @var string
+     * @var string[]
      */
     public $name;
 
@@ -14,8 +14,20 @@ class CountryData
      */
     public $code;
 
+    /**
+     * @var bool[]
+     */
+    public $enabled;
+
+    /**
+     * @var int[]
+     */
+    public $priority;
+
     public function __construct()
     {
-        $this->name = '';
+        $this->name = [];
+        $this->enabled = [];
+        $this->priority = [];
     }
 }
